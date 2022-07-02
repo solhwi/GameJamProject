@@ -77,6 +77,7 @@ public class SoundManager : Singleton<SoundManager>
 			bgmSource = gameObject.AddComponent<AudioSource>();
 
 		soundPack = new SoundPack();
+		PlayBGM(SoundPack.BGMTag.stage3);
 	}
 
 	public void PlaySFX(GameObject owner, SoundPack.SFXTag tag)
