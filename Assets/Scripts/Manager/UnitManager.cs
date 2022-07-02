@@ -18,6 +18,9 @@ public class UnitManager : Singleton<UnitManager>
 
 	public void Spawn()
 	{
+		enemyActionQueue = new Queue<Action>();
+		spawnSequence = new List<KeyValuePair<int, int>>();
+
 		var stageData = ResourceManager.Instance.GetStageData(GameManager.Instance.currStage);
 		spawnSequence = stageData.spawnTimeList;
 	}
