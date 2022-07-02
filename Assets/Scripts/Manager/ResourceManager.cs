@@ -103,7 +103,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach(var column in sheetList)
 		{
-			EnemyData data = new EnemyData()
+			EnemyData _data = new EnemyData()
 			{
 				code = (string)column["code"],
 				damage = (int)column["damage"],
@@ -116,7 +116,7 @@ public class ResourceManager : Singleton<ResourceManager>
 			int id = (int)column["id"];
 			
 			if(!enemyDictionary.ContainsKey((ObjectID)id))
-				enemyDictionary.Add((ObjectID)id, data);
+				enemyDictionary.Add((ObjectID)id, _data);
 		}
 
 		// 시트 2. 보스 데이터
@@ -129,7 +129,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach (var column in sheetList)
 		{
-			BossData data = new BossData()
+			BossData _data = new BossData()
 			{
 				code = (string)column["code"],
 				damage = (int)column["damage"],
@@ -142,7 +142,7 @@ public class ResourceManager : Singleton<ResourceManager>
 			int id = (int)column["id"];
 
 			if (!bossDictionary.ContainsKey((ObjectID)id))
-				bossDictionary.Add((ObjectID)id, data);
+				bossDictionary.Add((ObjectID)id, _data);
 		}
 
 		// 시트 3. 타워 데이터
@@ -154,7 +154,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach (var column in sheetList)
 		{
-			TowerData data = new TowerData()
+			TowerData _data = new TowerData()
 			{
 				code = (string)column["code"],
 				hpMax = (int)column["hpMax"],
@@ -164,7 +164,7 @@ public class ResourceManager : Singleton<ResourceManager>
 			int id = (int)column["id"];
 
 			if (!towerDictionary.ContainsKey((ObjectID)id))
-				towerDictionary.Add((ObjectID)id, data);
+				towerDictionary.Add((ObjectID)id, _data);
 		}
 
 		// 시트 4. 아군 데이터
@@ -176,7 +176,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach (var column in sheetList)
 		{
-			FriendlyData data = new FriendlyData()
+			FriendlyData _data = new FriendlyData()
 			{
 				damage = (int)column["damage"],
 				attackSpeed = (float)column["attack_speed"],
@@ -186,8 +186,9 @@ public class ResourceManager : Singleton<ResourceManager>
 			int id = (int)column["id"];
 
 			if (!friendlyDictionaryByLevel.ContainsKey(id))
-				friendlyDictionaryByLevel.Add(id, data);
+				friendlyDictionaryByLevel.Add(id, _data);
 		}
+
 		// 시트 5. 아군 레벨업 가중치 데이터
 		request = UnityWebRequest.Get(URL + stageWeightCode);
 		yield return request.SendWebRequest();
@@ -197,7 +198,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach (var column in sheetList)
 		{
-			StageWeightData data = new StageWeightData()
+			StageWeightData _data = new StageWeightData()
 			{
 				code = (string)column["code"],
 				damage = (int)column["damage"],
@@ -207,10 +208,108 @@ public class ResourceManager : Singleton<ResourceManager>
 			int id = (int)column["id"];
 
 			if (!stageWeightDictionary.ContainsKey((ENUM_STAGE)id))
-				stageWeightDictionary.Add((ENUM_STAGE)id, data);
+				stageWeightDictionary.Add((ENUM_STAGE)id, _data);
 		}
 
-		// 시트 6 ~ 10. 스테이지 1 ~ 5 데이터
+		// 시트 6
+		request = UnityWebRequest.Get(URL + stage1TimeCode);
+		yield return request.SendWebRequest();
+
+		dataHandler = request.downloadHandler;
+		sheetList = CSVReader.Read(dataHandler.text);
+
+		StageData data = new StageData();
+
+		foreach (var column in sheetList)
+		{
+			float timing = (float)column["timing"];
+			int id = (int)column["id"];
+
+			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+		}
+
+		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage1))
+			stageTimingDictionary.Add(ENUM_STAGE.stage1, data);
+
+		// 시트 7
+		request = UnityWebRequest.Get(URL + stage2TimeCode);
+		yield return request.SendWebRequest();
+
+		dataHandler = request.downloadHandler;
+		sheetList = CSVReader.Read(dataHandler.text);
+
+		data = new StageData();
+
+		foreach (var column in sheetList)
+		{
+			float timing = (float)column["timing"];
+			int id = (int)column["id"];
+
+			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+		}
+
+		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage2))
+			stageTimingDictionary.Add(ENUM_STAGE.stage2, data);
+
+		// 시트 8
+		request = UnityWebRequest.Get(URL + stage3TimeCode);
+		yield return request.SendWebRequest();
+
+		dataHandler = request.downloadHandler;
+		sheetList = CSVReader.Read(dataHandler.text);
+
+		data = new StageData();
+
+		foreach (var column in sheetList)
+		{
+			float timing = (float)column["timing"];
+			int id = (int)column["id"];
+
+			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+		}
+
+		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage3))
+			stageTimingDictionary.Add(ENUM_STAGE.stage3, data);
+
+		// 시트 9
+		request = UnityWebRequest.Get(URL + stage4TimeCode);
+		yield return request.SendWebRequest();
+
+		dataHandler = request.downloadHandler;
+		sheetList = CSVReader.Read(dataHandler.text);
+
+		data = new StageData();
+
+		foreach (var column in sheetList)
+		{
+			float timing = (float)column["timing"];
+			int id = (int)column["id"];
+
+			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+		}
+
+		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage4))
+			stageTimingDictionary.Add(ENUM_STAGE.stage4, data);
+
+		// 시트 10
+		request = UnityWebRequest.Get(URL + stage5TimeCode);
+		yield return request.SendWebRequest();
+
+		dataHandler = request.downloadHandler;
+		sheetList = CSVReader.Read(dataHandler.text);
+
+		data = new StageData();
+
+		foreach (var column in sheetList)
+		{
+			float timing = (float)column["timing"];
+			int id = (int)column["id"];
+
+			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+		}
+
+		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage5))
+			stageTimingDictionary.Add(ENUM_STAGE.stage5, data);
 
 		// code를 통해 리소스 로드
 
