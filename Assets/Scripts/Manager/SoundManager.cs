@@ -11,7 +11,11 @@ public class SoundPack
 
 	public enum BGMTag
 	{
-		stage3 = 0,
+		stage1 = 0,
+		stage2 = 1,
+		stage3 = 2,
+		stage4 = 3,
+		stage5 = 4,
 	}
 
 	private Dictionary<SFXTag, AudioClip> sfxDictionary = new Dictionary<SFXTag, AudioClip>()
@@ -21,8 +25,9 @@ public class SoundPack
 
 	private Dictionary<BGMTag, AudioClip> bgmDictionary = new Dictionary<BGMTag, AudioClip>()
 	{
+		{ BGMTag.stage2, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage2}")},
 		{ BGMTag.stage3, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage3}")},
-
+		{ BGMTag.stage4, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage4}")},
 	};
 
 	public AudioClip GetBGMClip(BGMTag tag)
