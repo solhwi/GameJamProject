@@ -13,11 +13,11 @@ public class UnitManager : Singleton<UnitManager>
 
 	private Queue<Action> enemyActionQueue = new Queue<Action>();
 
-	public override void Initialize()
-	{
-		base.Initialize();
+	private Vector2 spawnPos = new Vector2(-2, 1);
 
-		// 여기서 리소스 딕셔너리를 가져와서 거기 데이터에 맞춰 적을 스폰해준다. 
+	public void Spawn()
+	{
+
 	}
 
 	public override void OnUpdateInstance()

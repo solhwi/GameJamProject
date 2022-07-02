@@ -14,4 +14,14 @@ public class FriendlyUnit : ActiveObject
 
 		tagType = ENUM_TAG_TYPE.Friendly;
 	}
+
+	public override void Idle(CommandParam param = null)
+	{
+		base.Idle(param);
+	}
+
+	public override void Attack(CommandParam param)
+	{
+		base.Attack(param);
+	}
 }
