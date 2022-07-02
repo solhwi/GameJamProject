@@ -11,7 +11,7 @@ public class SoundPack
 
 	public enum BGMTag
 	{
-
+		stage3 = 0,
 	}
 
 	private Dictionary<SFXTag, AudioClip> sfxDictionary = new Dictionary<SFXTag, AudioClip>()
@@ -21,6 +21,7 @@ public class SoundPack
 
 	private Dictionary<BGMTag, AudioClip> bgmDictionary = new Dictionary<BGMTag, AudioClip>()
 	{
+		{ BGMTag.stage3, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage3}")},
 
 	};
 
@@ -57,6 +58,7 @@ public class SoundManager : Singleton<SoundManager>
 	private float bgmVolume = 0.0f;
 
 	AudioSource bgmSource = null;
+	Coroutine bgmCoroutine = null;
 
 	public enum SoundStatus
 	{
@@ -99,12 +101,44 @@ public class SoundManager : Singleton<SoundManager>
 	{
 		var clip = soundPack.GetBGMClip(tag);
 
-		if(clip != null)
+		if (clip != null)
 		{
 			bgmSource.clip = clip;
 			bgmSource.volume = bgmVolume;
 			bgmSource.Play();
 		}
+	}
+
+	public void ChangeBGM(SoundPack.BGMTag tag)
+	{
+		var clip = soundPack.GetBGMClip(tag);
+		StartCoroutine(OnChangeBGMCoroutine(clip));
+	}
+
+	private IEnumerator OnChangeBGMCoroutine(AudioClip clip)
+	{
+		float delayTime = bgmVolume;
+
+		while (delayTime > 0.0f)
+		{
+			yield return null;
+			delayTime -= Time.deltaTime;
+			bgmSource.volume = delayTime;
+		}
+
+		bgmSource.Stop();
+		yield return null;
+
+		while (delayTime < bgmVolume)
+		{
+			yield return null;
+			delayTime += Time.deltaTime;
+			bgmSource.volume = delayTime;
+		}
+
+		bgmSource.clip = clip;
+		bgmSource.volume = delayTime;
+		bgmSource.Play();
 	}
 
 	public void SetSFXVolume(float volume)
