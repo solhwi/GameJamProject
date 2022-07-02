@@ -32,6 +32,7 @@ public abstract class Singleton<T> : Singleton where T : Singleton
 			if(instance == null)
 			{
 				var g = new GameObject(typeof(T).ToString());
+				DontDestroyOnLoad(g);
 				instance = g.AddComponent<T>();
 				instance.Initialize();
 				return instance;
