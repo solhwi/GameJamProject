@@ -6,10 +6,14 @@ public class ActiveObject : CollisionObject
 {
 	// 로드하지 않고 직접 세팅하는 방법 채택
 	[SerializeField] Animator anim = null;
+	SpriteRenderer spriteRenderer = null;
 
-	public override void Init(CollisionType type)
+	public override void Initialize(CollisionType type)
 	{
-		base.Init(type);
+		base.Initialize(type);
+
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		spriteRenderer.sortingOrder = 1;
 	}
 
 	public override void Idle(CommandParam param = null)

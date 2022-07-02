@@ -30,6 +30,7 @@ public class MapManager : Singleton<MapManager>
 		}
 			
 		currMapRoot.transform.SetParent(transform);
+		currMapRoot.transform.position = new Vector3(0, 1, 0);
 
 		SceneManager.Instance.UnloadSceneMap(currMap);
 

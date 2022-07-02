@@ -8,9 +8,9 @@ using UnityEngine;
 
 public class TowerUnit : ActiveObject
 {
-	public override void Init(CollisionType type)
+	public override void Initialize(CollisionType type)
 	{
-		base.Init(type);
+		base.Initialize(type);
 
 		tagType = ENUM_TAG_TYPE.Tower;
 	}

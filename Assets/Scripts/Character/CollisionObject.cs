@@ -108,7 +108,7 @@ public class CollisionObject : MonoBehaviour
 	public bool IsBoss = false;
 	protected int currHp = 0;
 
-	public virtual void Init(CollisionType type)
+	public virtual void Initialize(CollisionType type)
 	{
 		if (col != null || rigid != null)
 			return;
@@ -128,7 +128,14 @@ public class CollisionObject : MonoBehaviour
 				break;
 		}
 
+		col.isTrigger = true;
+
 		rigid = gameObject.AddComponent<Rigidbody2D>();
+
+		rigid.drag = 0.0f;
+		rigid.angularDrag = 0.0f;
+		rigid.freezeRotation = true;
+		rigid.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
 		Idle(); // 시작엔 Idle로 세팅
 	}

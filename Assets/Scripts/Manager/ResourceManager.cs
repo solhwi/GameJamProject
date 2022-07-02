@@ -114,8 +114,11 @@ public class ResourceManager : Singleton<ResourceManager>
 			var score = (int)column["score"];
 			var gold = (int)column["gold"];
 
+			var obj = Resources.Load<GameObject>($"Prefabs/{code}");
+
 			EnemyData _data = new EnemyData()
 			{
+				prefab = obj,
 				code = code,
 				damage = damage,
 				hpMax = hpMax,

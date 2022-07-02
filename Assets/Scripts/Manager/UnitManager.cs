@@ -35,7 +35,9 @@ public class UnitManager : Singleton<UnitManager>
 			if (time <= GameManager.Instance.StageTime)
 			{
 				var data = ResourceManager.Instance.GetEnemyData((ObjectID)id);
-				Instantiate(data.prefab);
+				var g = Instantiate(data.prefab, spawnPos, new Quaternion());
+				var unit = g.GetComponent<EnemyUnit>();
+				unit.Initialize(CollisionObject.CollisionType.Capsule);
 				spawnSequence.RemoveAt(i--);
 			}
 		}
