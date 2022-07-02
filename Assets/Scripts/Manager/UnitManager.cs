@@ -13,7 +13,7 @@ public class UnitManager : Singleton<UnitManager>
 
 	private Queue<Action> enemyActionQueue = new Queue<Action>();
 
-	private Vector2 spawnPos = new Vector2(-2, 1);
+	private Vector2 spawnPos = new Vector2(2, 1);
 	private List<KeyValuePair<float, int>> spawnSequence = new List<KeyValuePair<float, int>>();
 
 	public void Spawn()

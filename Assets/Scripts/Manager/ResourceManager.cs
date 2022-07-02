@@ -12,6 +12,8 @@ public class EnemyData
 	public int damage;
 	public float moveSpeed;
 	public int stage;
+	public int score;
+	public int gold;
 }
 
 public class BossData
@@ -110,7 +112,9 @@ public class ResourceManager : Singleton<ResourceManager>
 				hpMax = (int)column["hpMax"],
 				moveSpeed = (float)column["moveSpeed"],
 				name = (string)column["name"],
-				stage = (int)column["stage"]
+				stage = (int)column["stage"],
+				score = (int)column["score"],
+				gold = (int)column["gold"]
 			};
 
 			int id = (int)column["id"];
