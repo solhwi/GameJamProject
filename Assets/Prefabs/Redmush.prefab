@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 6
-  tagType: 0
+  tagType: 3
   IsBoss: 0
   anim: {fileID: 0}
 --- !u!114 &-6719225856378300454
