@@ -14,7 +14,7 @@ public class UnitManager : Singleton<UnitManager>
 	private Queue<Action> enemyActionQueue = new Queue<Action>();
 
 	private Vector2 spawnPos = new Vector2(2, 1);
-	private List<KeyValuePair<float, int>> spawnSequence = new List<KeyValuePair<float, int>>();
+	private List<KeyValuePair<int, int>> spawnSequence = new List<KeyValuePair<int, int>>();
 
 	public void Spawn()
 	{

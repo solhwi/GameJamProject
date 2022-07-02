@@ -10,7 +10,7 @@ public class EnemyData
 	public string name;
 	public int hpMax;
 	public int damage;
-	public float moveSpeed;
+	public int moveSpeed;
 	public int stage;
 	public int score;
 	public int gold;
@@ -22,9 +22,9 @@ public class BossData
 	public string code; // 경로를 찾기 위한 코드 네임
 	public int hpMax;
 	public int damage;
-	public float moveSpeed;
-	public float attackSpeed;
-	public float spawnTime;
+	public int moveSpeed;
+	public int attackSpeed;
+	public int spawnTime;
 }
 
 public enum ENUM_STAGE
@@ -38,7 +38,7 @@ public enum ENUM_STAGE
 
 public class StageData
 {
-	public List<KeyValuePair<float, int>> spawnTimeList = new List<KeyValuePair<float, int>>();
+	public List<KeyValuePair<int, int>> spawnTimeList = new List<KeyValuePair<int, int>>();
 }
 
 public class TowerData
@@ -51,7 +51,7 @@ public class TowerData
 public class FriendlyData
 {
 	public int damage;
-	public float attackSpeed;
+	public int attackSpeed;
 	public int bulletCount;
 }
 
@@ -59,7 +59,7 @@ public class StageWeightData
 {
 	public string code;
 	public int damage;
-	public float attack_speed;
+	public int attack_speed;
 }
 
 public class ResourceManager : Singleton<ResourceManager>
@@ -70,7 +70,7 @@ public class ResourceManager : Singleton<ResourceManager>
 		private set;
 	} = false;
 
-	private readonly string URL = "https://docs.google.com/spreadsheets/d/1-BwkH4X4BDXGfYuwwJkeAZcCouOF_QwxiSrbzbVjbcs/Export?format=csv&gid=";
+	private readonly string URL = "https://docs.google.com/spreadsheets/d/1-BwkH4X4BDXGfYuwwJkeAZcCouOF_QwxiSrbzbVjbcs/export?format=csv&gid=";
 	
 	private readonly uint enemyDataCode = 0;
 	private readonly uint bossDataCode = 283066001;
@@ -105,16 +105,25 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach(var column in sheetList)
 		{
+			var code = (string)column["code"];
+			var damage = (int)column["damage"];
+			var hpMax = (int)column["hpMax"];
+			var moveSpeed = (int)column["moveSpeed"];
+			var name = (string)column["name"];
+			var stage = (int)column["stage"];
+			var score = (int)column["score"];
+			var gold = (int)column["gold"];
+
 			EnemyData _data = new EnemyData()
 			{
-				code = (string)column["code"],
-				damage = (int)column["damage"],
-				hpMax = (int)column["hpMax"],
-				moveSpeed = (float)column["moveSpeed"],
-				name = (string)column["name"],
-				stage = (int)column["stage"],
-				score = (int)column["score"],
-				gold = (int)column["gold"]
+				code = code,
+				damage = damage,
+				hpMax = hpMax,
+				moveSpeed = moveSpeed,
+				name = name,
+				stage = stage,
+				score = score,
+				gold = gold
 			};
 
 			int id = (int)column["id"];
@@ -138,9 +147,9 @@ public class ResourceManager : Singleton<ResourceManager>
 				code = (string)column["code"],
 				damage = (int)column["damage"],
 				hpMax = (int)column["hpMax"],
-				moveSpeed = (float)column["moveSpeed"],
-				attackSpeed = (float)column["attack_speed"],
-				spawnTime = (float)column["boss_spawn_timing"]
+				moveSpeed = (int)column["moveSpeed"],
+				attackSpeed = (int)column["attack_speed"],
+				spawnTime = (int)column["boss_spawn_timing"]
 			};
 
 			int id = (int)column["id"];
@@ -183,7 +192,7 @@ public class ResourceManager : Singleton<ResourceManager>
 			FriendlyData _data = new FriendlyData()
 			{
 				damage = (int)column["damage"],
-				attackSpeed = (float)column["attack_speed"],
+				attackSpeed = (int)column["attack_speed"],
 				bulletCount = (int)column["bullet"],
 			};
 
@@ -226,10 +235,10 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach (var column in sheetList)
 		{
-			float timing = (float)column["timing"];
+			int timing = (int)column["timing"];
 			int id = (int)column["id"];
 
-			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+			data.spawnTimeList.Add(new KeyValuePair<int, int>(timing, id));
 		}
 
 		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage1))
@@ -246,10 +255,10 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach (var column in sheetList)
 		{
-			float timing = (float)column["timing"];
+			int timing = (int)column["timing"];
 			int id = (int)column["id"];
 
-			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+			data.spawnTimeList.Add(new KeyValuePair<int, int>(timing, id));
 		}
 
 		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage2))
@@ -266,10 +275,10 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach (var column in sheetList)
 		{
-			float timing = (float)column["timing"];
+			int timing = (int)column["timing"];
 			int id = (int)column["id"];
 
-			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+			data.spawnTimeList.Add(new KeyValuePair<int, int>(timing, id));
 		}
 
 		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage3))
@@ -286,10 +295,10 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach (var column in sheetList)
 		{
-			float timing = (float)column["timing"];
+			int timing = (int)column["timing"];
 			int id = (int)column["id"];
 
-			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+			data.spawnTimeList.Add(new KeyValuePair<int, int>(timing, id));
 		}
 
 		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage4))
@@ -306,10 +315,10 @@ public class ResourceManager : Singleton<ResourceManager>
 
 		foreach (var column in sheetList)
 		{
-			float timing = (float)column["timing"];
+			int timing = (int)column["timing"];
 			int id = (int)column["id"];
 
-			data.spawnTimeList.Add(new KeyValuePair<float, int>(timing, id));
+			data.spawnTimeList.Add(new KeyValuePair<int, int>(timing, id));
 		}
 
 		if (!stageTimingDictionary.ContainsKey(ENUM_STAGE.stage5))

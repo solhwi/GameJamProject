@@ -26,12 +26,12 @@ public abstract class CommandParam
 public class AttackParam : CommandParam
 {
 	public CollisionObject target;
-	public float damage;
+	public int damage;
 }
 
 public class MoveParam : CommandParam
 {
-	public float speed;
+	public int speed;
 }
 
 public class IdleParam : CommandParam
@@ -148,7 +148,7 @@ public class CollisionObject : MonoBehaviour
 		if (currActiveStatus == ObjectStatus.Die)
 			return;
 
-		float speed = 0.0f;
+		int speed = 0;
 
 		if(IsBoss)
 		{
