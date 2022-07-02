@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class StartButton : MonoBehaviour
 {
+    private void Start()
+    {
+        SoundManager.Instance.PlayBGM(SoundPack.BGMTag.stage3);
+        
+    }
     //눌렀을 때(OnClick) Stage Scene 으로 이동(Load Scene)
     public void OnClickMoveToStageScene()
     {
