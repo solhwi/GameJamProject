@@ -24,7 +24,7 @@ public class IdleParam : CommandParam
 
 public class HitParam : CommandParam
 {
-
+	public int damage;
 }
 
 public class DieParam : CommandParam
@@ -32,7 +32,7 @@ public class DieParam : CommandParam
 
 }
 
-public enum ActiveObjectID
+public enum ObjectID
 {
 	punc = 1,
 	pacman = 2,
@@ -61,16 +61,6 @@ public enum ActiveObjectID
 
 public class ActiveObject : CollisionObject
 {
-	public enum ActiveStatus
-	{
-		Idle = 0,
-		Move = 1,
-		Attack = 2,
-		Hit = 3,
-		Die = 4,
-	}
-
-	ActiveStatus currActiveStatus = ActiveStatus.Idle;
 
 	// 로드하지 않고 직접 세팅하는 방법 채택
 	[SerializeField] Animator anim = null;
@@ -78,31 +68,32 @@ public class ActiveObject : CollisionObject
 	public override void Init(CollisionType type)
 	{
 		base.Init(type);
-		Idle(); // 시작엔 Idle로 세팅
 	}
 
-	public virtual void Idle(CommandParam param = null)
+	public override void Idle(CommandParam param = null)
 	{
-
+		base.Idle(param);
 	}
 
-	public virtual void Move(CommandParam param)
+	public override void Move(CommandParam param)
 	{
-
+		base.Move(param);
 	}
 
-	public virtual void Attack(CommandParam param)
+	public override void Attack(CommandParam param)
 	{
-
+		base.Attack(param);
 	}
 
-	public virtual void Hit(CommandParam param)
+	public override void Hit(CommandParam param)
 	{
-
+		base.Hit(param);
 	}
 
-	public virtual void Die(CommandParam param)
+	public override void Die(CommandParam param)
 	{
-
+		base.Die(param);
 	}
+
+
 }

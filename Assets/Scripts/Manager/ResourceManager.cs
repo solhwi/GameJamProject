@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class MonsterData
+public class EnemyData
 {
 	public GameObject prefab;
 	public string code; // 경로를 찾기 위한 코드 네임
@@ -40,6 +40,12 @@ public class StageData
 	public List<float> spawnTimeList = new List<float>();
 }
 
+public class TowerData
+{
+	public int hpMax;
+	public int maxSlotCount;
+}
+
 public class ResourceManager : Singleton<ResourceManager>
 {
 	public bool IsReadyResource
@@ -51,9 +57,10 @@ public class ResourceManager : Singleton<ResourceManager>
 	private readonly string URL = "";
 	private DownloadHandler dataHandler = null;
 
-	private Dictionary<ActiveObjectID, MonsterData> monsterDictionary = new Dictionary<ActiveObjectID, MonsterData>();
-	private Dictionary<ActiveObjectID, BossData> bossDictionary = new Dictionary<ActiveObjectID, BossData>();
+	private Dictionary<ObjectID, EnemyData> monsterDictionary = new Dictionary<ObjectID, EnemyData>();
+	private Dictionary<ObjectID, BossData> bossDictionary = new Dictionary<ObjectID, BossData>();
 	private Dictionary<ENUM_STAGE, StageData> stageDictionary = new Dictionary<ENUM_STAGE, StageData>();
+	private Dictionary<ObjectID, TowerData> towerDictionary = new Dictionary<ObjectID, TowerData>();
 
 	protected override IEnumerator Start()
 	{
@@ -69,6 +76,54 @@ public class ResourceManager : Singleton<ResourceManager>
 		// code를 통해 리소스 로드
 
 		IsReadyResource = true;
+	}
+
+	public EnemyData GetEnemyData(ObjectID id)
+	{
+		EnemyData data;
+
+		if(monsterDictionary.TryGetValue(id, out data))
+		{
+			return data;
+		}
+
+		return null;
+	}
+
+	public BossData GetBossData(ObjectID id)
+	{
+		BossData data;
+
+		if(bossDictionary.TryGetValue(id, out data))
+		{
+			return data;
+		}
+
+		return null;
+	}
+
+	public StageData GetStageData(ENUM_STAGE stage)
+	{
+		StageData data;
+
+		if(stageDictionary.TryGetValue(stage, out data))
+		{
+			return data;
+		}
+
+		return null;
+	}
+
+	public TowerData GetTowerData(ObjectID id)
+	{
+		TowerData data;
+
+		if(towerDictionary.TryGetValue(id, out data))
+		{
+			return data;
+		}
+
+		return null;
 	}
 
 	public T Load<T>(string path) where T : Object
