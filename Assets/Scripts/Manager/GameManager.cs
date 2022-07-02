@@ -12,9 +12,17 @@ public class GameManager : Singleton<GameManager>
 
 	public ENUM_STAGE currStage = ENUM_STAGE.stage1;
 
+	public float StageTime
+	{
+		get;
+		private set;
+	} = 0.0f;
+
 	private void Update()
 	{
 		OnUpdateInstance();
+
+		StageTime += Time.deltaTime;
 	}
 
 	protected override void OnDestroy()
@@ -64,12 +72,16 @@ public class GameManager : Singleton<GameManager>
 	{
 		Instance.onTriggerGameStop?.Invoke();
 		Instance.onTriggerGameStop = null;
+
+		Time.timeScale = 0.125f;
 	}
 
 	public static void GameStartTrigger()
 	{
 		Instance.onTriggerGameStart?.Invoke();
 		Instance.onTriggerGameStart = null;
+
+		Time.timeScale = 1.0f;
 	}
 
 	public static void RegisterStartTrigger(Action callback)
