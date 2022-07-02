@@ -19,6 +19,12 @@ public abstract class Singleton : MonoBehaviour
 
 public abstract class Singleton<T> : Singleton where T : Singleton
 {
+	public bool IsInitialized
+	{
+		get;
+		private set;
+	} = false;
+
 	public static T Instance 
 	{ 
 		get
@@ -26,9 +32,9 @@ public abstract class Singleton<T> : Singleton where T : Singleton
 			if(instance == null)
 			{
 				var g = new GameObject(typeof(T).ToString());
-				T inst = g.AddComponent<T>();
-				inst.Initialize();
-				return inst;
+				instance = g.AddComponent<T>();
+				instance.Initialize();
+				return instance;
 			}
 
 			return instance;
@@ -39,12 +45,17 @@ public abstract class Singleton<T> : Singleton where T : Singleton
 
 	public override void Initialize()
 	{
+		if (IsInitialized)
+			return;
+
 		GameManager.RegisterManager(this);
+		IsInitialized = true;
 	}
 
 	public override void Clear()
 	{
 		GameManager.UnregisterManager(this);
+		IsInitialized = false;
 	}
 
 	protected virtual void Awake()

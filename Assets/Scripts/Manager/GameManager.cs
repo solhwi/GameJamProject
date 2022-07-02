@@ -19,7 +19,7 @@ public class GameManager : Singleton<GameManager>
 
 	protected override void OnAwakeInstance()
 	{
-
+		
 	}
 
 	protected override void OnStartInstance()
@@ -48,7 +48,10 @@ public class GameManager : Singleton<GameManager>
 
 	public static void RegisterManager(Singleton manager)
 	{
-		if(!Instance.managerList.Contains(manager))
+		if (manager.Equals(Instance))
+			return;
+
+		if (!Instance.managerList.Contains(manager))
 		{
 			Instance.managerList.Add(manager);
 		}	
