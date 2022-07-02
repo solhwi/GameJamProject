@@ -24,6 +24,8 @@ public class SceneManager : Singleton<SceneManager>
 
 	BaseScene currScene;
 
+	Action OnMapLoad = null;
+
 	protected override void OnAwakeInstance()
 	{
         InitializeScene();
@@ -74,10 +76,9 @@ public class SceneManager : Singleton<SceneManager>
 		StartCoroutine(OnLoadSceneMapCoroutine(map, onMapLoad));
 	}
 
-	[Obsolete]
 	public void UnloadSceneMap(ENUM_SCENE_MAP map)
 	{
-		UnityEngine.SceneManagement.SceneManager.UnloadScene(map.ToString());
+		UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(map.ToString());
 	}
 
 	private IEnumerator OnLoadSceneCoroutine(ENUM_SCENE scene, Action<float> onSceneLoad)
@@ -102,13 +103,12 @@ public class SceneManager : Singleton<SceneManager>
 		var asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(map.ToString(), LoadSceneMode.Additive);
 		asyncOperation.allowSceneActivation = false;
 
+		OnMapLoad = onMapLoad;
 		currScene?.End();
 
 		while (asyncOperation.progress < 0.9f)
 		{
 			yield return null;
-
-			onMapLoad?.Invoke();
 		}
 
 		asyncOperation.allowSceneActivation = true;
@@ -116,6 +116,9 @@ public class SceneManager : Singleton<SceneManager>
 
     private void LoadSceneEnd(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
     {
-        InitializeScene();
+		OnMapLoad?.Invoke();
+		OnMapLoad = null;
+
+		InitializeScene();
     }
 }
