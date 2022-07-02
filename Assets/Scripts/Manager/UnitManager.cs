@@ -14,14 +14,29 @@ public class UnitManager : Singleton<UnitManager>
 	private Queue<Action> enemyActionQueue = new Queue<Action>();
 
 	private Vector2 spawnPos = new Vector2(-2, 1);
+	private List<KeyValuePair<float, int>> spawnSequence = new List<KeyValuePair<float, int>>();
 
 	public void Spawn()
 	{
-
+		var stageData = ResourceManager.Instance.GetStageData(GameManager.Instance.currStage);
+		spawnSequence = stageData.spawnTimeList;
 	}
 
 	public override void OnUpdateInstance()
 	{
+		for(int i = 0; i < spawnSequence.Count; i++)
+		{
+			float time = spawnSequence[i].Key;
+			int id = spawnSequence[i].Value;
+
+			if (time <= GameManager.Instance.StageTime)
+			{
+				var data = ResourceManager.Instance.GetEnemyData((ObjectID)id);
+				Instantiate(data.prefab);
+				spawnSequence.RemoveAt(i--);
+			}
+		}
+
 		while(enemyActionQueue.Count > 0)
 		{
 			var action = enemyActionQueue.Dequeue();
