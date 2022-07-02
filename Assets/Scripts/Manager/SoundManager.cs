@@ -52,11 +52,10 @@ public class SoundPack
 
 public class SoundManager : Singleton<SoundManager>
 {
-	SoundPack soundPack = new SoundPack();
-
 	private float sfxVolume = 0.0f;
 	private float bgmVolume = 0.0f;
 
+	SoundPack soundPack = null;
 	AudioSource bgmSource = null;
 	Coroutine bgmCoroutine = null;
 
@@ -76,6 +75,8 @@ public class SoundManager : Singleton<SoundManager>
 
 		if(bgmSource == null)
 			bgmSource = gameObject.AddComponent<AudioSource>();
+
+		soundPack = new SoundPack();
 	}
 
 	public void PlaySFX(GameObject owner, SoundPack.SFXTag tag)
@@ -100,6 +101,7 @@ public class SoundManager : Singleton<SoundManager>
 		if (clip != null)
 		{
 			bgmSource.clip = clip;
+			bgmSource.loop = true;
 			bgmSource.volume = bgmVolume;
 			bgmSource.Play();
 		}
@@ -108,7 +110,7 @@ public class SoundManager : Singleton<SoundManager>
 	public void ChangeBGM(SoundPack.BGMTag tag)
 	{
 		var clip = soundPack.GetBGMClip(tag);
-		StartCoroutine(OnChangeBGMCoroutine(clip));
+		bgmCoroutine = StartCoroutine(OnChangeBGMCoroutine(clip));
 	}
 
 	private IEnumerator OnChangeBGMCoroutine(AudioClip clip)
