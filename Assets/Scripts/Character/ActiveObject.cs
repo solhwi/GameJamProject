@@ -27,6 +27,11 @@ public class HitParam : CommandParam
 
 }
 
+public class DieParam : CommandParam
+{
+
+}
+
 public class ActiveObject : CollisionObject
 {
 	public enum ActiveStatus
@@ -34,7 +39,8 @@ public class ActiveObject : CollisionObject
 		Idle = 0,
 		Move = 1,
 		Attack = 2,
-		Hit = 3
+		Hit = 3,
+		Die = 4,
 	}
 
 	ActiveStatus currActiveStatus = ActiveStatus.Idle;
@@ -64,6 +70,11 @@ public class ActiveObject : CollisionObject
 	}
 
 	public virtual void Hit(CommandParam param)
+	{
+
+	}
+
+	public virtual void Die(CommandParam param)
 	{
 
 	}
