@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1643fbb572ecc0b43915bb2e34ee7722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 7
   tagType: 0
   IsBoss: 0
   anim: {fileID: 0}
