@@ -10,6 +10,8 @@ public class GameManager : Singleton<GameManager>
 	private Action onTriggerGameStart = null;
 	private Action onTriggerGameStop = null;
 
+	public ENUM_STAGE currStage = ENUM_STAGE.stage1;
+
 	private void Update()
 	{
 		OnUpdateInstance();

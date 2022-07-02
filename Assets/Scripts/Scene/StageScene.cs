@@ -16,7 +16,8 @@ public class StageScene : BaseScene
 
 		yield return base.Start();
 
-		MapManager.Instance.Initialize();
+		var currStage = GameManager.Instance.currStage;
+		MapManager.Instance.LoadMap((SceneManager.ENUM_SCENE_MAP)(int)currStage);
 
 		while(!MapManager.Instance.IsMapLoaded)
 			yield return null;
