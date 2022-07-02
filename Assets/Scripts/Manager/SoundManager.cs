@@ -77,10 +77,6 @@ public class SoundManager : Singleton<SoundManager>
 		if(bgmSource == null)
 			bgmSource = gameObject.AddComponent<AudioSource>();
 	}
-	protected override void OnAwakeInstance()
-	{
-
-	}
 
 	public void PlaySFX(GameObject owner, SoundPack.SFXTag tag)
 	{

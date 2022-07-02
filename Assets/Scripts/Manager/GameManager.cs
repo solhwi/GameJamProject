@@ -7,6 +7,9 @@ public class GameManager : Singleton<GameManager>
 {
 	private List<Singleton> managerList = new List<Singleton>();
 
+	private Action onTriggerGameStart = null;
+	private Action onTriggerGameStop = null;
+
 	private void Update()
 	{
 		OnUpdateInstance();
@@ -15,16 +18,6 @@ public class GameManager : Singleton<GameManager>
 	protected override void OnDestroy()
 	{
 		OnDestroyInstance();
-	}
-
-	protected override void OnAwakeInstance()
-	{
-		
-	}
-
-	protected override void OnStartInstance()
-	{
-
 	}
 
 	public override void OnUpdateInstance()
@@ -63,5 +56,27 @@ public class GameManager : Singleton<GameManager>
 		{
 			Instance.managerList.Remove(manager);
 		}
+	}
+
+	public static void GameStopTrigger()
+	{
+		Instance.onTriggerGameStop?.Invoke();
+		Instance.onTriggerGameStop = null;
+	}
+
+	public static void GameStartTrigger()
+	{
+		Instance.onTriggerGameStart?.Invoke();
+		Instance.onTriggerGameStart = null;
+	}
+
+	public static void RegisterStartTrigger(Action callback)
+	{
+		Instance.onTriggerGameStart += callback;
+	}
+
+	public static void RegisterStopTrigger(Action callback)
+	{
+		Instance.onTriggerGameStop += callback;
 	}
 }

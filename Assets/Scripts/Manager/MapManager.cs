@@ -2,17 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapManager : MonoBehaviour
+public class MapManager : Singleton<MapManager>
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	private MapRoot currMapRoot = null;
+	public bool IsMapLoaded
+	{
+		get;
+		private set;
+	} = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	public void LoadMap(SceneManager.ENUM_SCENE_MAP map)
+	{
+		SceneManager.Instance.LoadSceneMap(map, OnLoadMap);
+	}
+
+	private void OnLoadMap()
+	{
+		currMapRoot = FindObjectOfType<MapRoot>();
+		currMapRoot.transform.SetParent(transform);
+
+		IsMapLoaded = true;
+	}
 }

@@ -12,6 +12,15 @@ public class SceneManager : Singleton<SceneManager>
 		Stage = 1,
 	}
 
+	public enum ENUM_SCENE_MAP
+	{
+		stage1,
+		stage2,
+		stage3,
+		stage4,
+		stage5,
+	}
+
 	BaseScene currScene;
 
 	protected override void OnAwakeInstance()
@@ -59,22 +68,44 @@ public class SceneManager : Singleton<SceneManager>
         StartCoroutine(OnLoadSceneCoroutine(scene, onSceneLoad));
     }
 
-    private IEnumerator OnLoadSceneCoroutine(ENUM_SCENE scene, Action<float> onSceneLoad)
-    {
-        var asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(scene.ToString(), LoadSceneMode.Single);
-        asyncOperation.allowSceneActivation = false;
+	public void LoadSceneMap(ENUM_SCENE_MAP map, Action onMapLoad = null)
+	{
+		StartCoroutine(OnLoadSceneMapCoroutine(map, onMapLoad));
+	}
+
+	private IEnumerator OnLoadSceneCoroutine(ENUM_SCENE scene, Action<float> onSceneLoad)
+	{
+		var asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(scene.ToString(), LoadSceneMode.Single);
+		asyncOperation.allowSceneActivation = false;
 
 		currScene?.End();
 
 		while (asyncOperation.progress < 0.9f)
-        {
-            yield return null;
+		{
+			yield return null;
 
-            onSceneLoad?.Invoke(asyncOperation.progress);
-        }
+			onSceneLoad?.Invoke(asyncOperation.progress);
+		}
 
-        asyncOperation.allowSceneActivation = true;
-    }
+		asyncOperation.allowSceneActivation = true;
+	}
+
+	private IEnumerator OnLoadSceneMapCoroutine(ENUM_SCENE_MAP map, Action onMapLoad = null)
+	{
+		var asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(map.ToString(), LoadSceneMode.Single);
+		asyncOperation.allowSceneActivation = false;
+
+		currScene?.End();
+
+		while (asyncOperation.progress < 0.9f)
+		{
+			yield return null;
+
+			onMapLoad?.Invoke();
+		}
+
+		asyncOperation.allowSceneActivation = true;
+	}
 
     private void LoadSceneEnd(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
     {

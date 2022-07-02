@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Singleton : MonoBehaviour
 {
 	// 본인이 수행
-	protected abstract void OnAwakeInstance();
+	protected virtual void OnAwakeInstance() { }
 	protected virtual void OnStartInstance() { }
 
 	// 게임 매니저가 대신 수행

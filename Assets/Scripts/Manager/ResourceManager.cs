@@ -8,11 +8,6 @@ public class ResourceManager : Singleton<ResourceManager>
 	private readonly string URL = "";
 	private DownloadHandler dataHandler = null;
 
-	protected override void OnAwakeInstance()
-	{
-		
-	}
-
 	protected override IEnumerator Start()
 	{
 		yield return base.Start();
