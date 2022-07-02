@@ -41,8 +41,9 @@ public class StageData
 
 public class TowerData
 {
+	public string code;
 	public int hpMax;
-	public int maxSlotCount;
+	public int tower_limit;
 }
 
 public class FriendlyData
@@ -54,7 +55,9 @@ public class FriendlyData
 
 public class StageWeightData
 {
-
+	public string code;
+	public int damage;
+	public float attack_speed;
 }
 
 public class ResourceManager : Singleton<ResourceManager>
@@ -143,8 +146,70 @@ public class ResourceManager : Singleton<ResourceManager>
 		}
 
 		// 시트 3. 타워 데이터
+		request = UnityWebRequest.Get(URL + towerDataCode);
+		yield return request.SendWebRequest();
+
+		dataHandler = request.downloadHandler;
+		sheetList = CSVReader.Read(dataHandler.text);
+
+		foreach (var column in sheetList)
+		{
+			TowerData data = new TowerData()
+			{
+				code = (string)column["code"],
+				hpMax = (int)column["hpMax"],
+				tower_limit= (int)column["tower_limit"],
+			};
+
+			int id = (int)column["id"];
+
+			if (!towerDictionary.ContainsKey((ObjectID)id))
+				towerDictionary.Add((ObjectID)id, data);
+		}
+
 		// 시트 4. 아군 데이터
+		request = UnityWebRequest.Get(URL + friendlyDataCode);
+		yield return request.SendWebRequest();
+
+		dataHandler = request.downloadHandler;
+		sheetList = CSVReader.Read(dataHandler.text);
+
+		foreach (var column in sheetList)
+		{
+			FriendlyData data = new FriendlyData()
+			{
+				damage = (int)column["damage"],
+				attackSpeed = (float)column["attack_speed"],
+				bulletCount = (int)column["bullet"],
+			};
+
+			int id = (int)column["id"];
+
+			if (!friendlyDictionaryByLevel.ContainsKey(id))
+				friendlyDictionaryByLevel.Add(id, data);
+		}
 		// 시트 5. 아군 레벨업 가중치 데이터
+		request = UnityWebRequest.Get(URL + stageWeightCode);
+		yield return request.SendWebRequest();
+
+		dataHandler = request.downloadHandler;
+		sheetList = CSVReader.Read(dataHandler.text);
+
+		foreach (var column in sheetList)
+		{
+			StageWeightData data = new StageWeightData()
+			{
+				code = (string)column["code"],
+				damage = (int)column["damage"],
+				attack_speed = (int)column["attack_speed"],
+			};
+
+			int id = (int)column["id"];
+
+			if (!stageWeightDictionary.ContainsKey((ENUM_STAGE)id))
+				stageWeightDictionary.Add((ENUM_STAGE)id, data);
+		}
+
 		// 시트 6 ~ 10. 스테이지 1 ~ 5 데이터
 
 		// code를 통해 리소스 로드
