@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 움직이지 않으며, 주기적으로 탄을 발사
+/// 움직이지 않으며, 체력을 가짐
 /// </summary>
 
-public class FriendlyUnit : ActiveObject
+public class TowerUnit : ActiveObject
 {
 	public override void Init(CollisionType type)
 	{
 		base.Init(type);
 
-		tagType = ENUM_TAG_TYPE.Friendly;
+		tagType = ENUM_TAG_TYPE.Tower;
 	}
 }

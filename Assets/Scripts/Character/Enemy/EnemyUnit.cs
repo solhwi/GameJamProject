@@ -9,7 +9,6 @@ using UnityEngine;
 
 public abstract class EnemyUnit : ActiveObject
 {
-	public bool IsBoss = false;
 	public override void Init(CollisionType type)
 	{
 		base.Init(type);
@@ -20,6 +19,11 @@ public abstract class EnemyUnit : ActiveObject
 		if(data != null)
 			currHp = data.hpMax;
 
+	}
+
+	public override void Move(CommandParam param)
+	{
+		base.Move(param);
 	}
 
 	public void OnTriggerEnter2D(Collider2D collision)
@@ -38,7 +42,7 @@ public abstract class EnemyUnit : ActiveObject
 				obj.Hit(hitParam);
 			}
 			// Enemy Unit은 총알에게 맞을 수 있음
-			else if(obj.tagType == ENUM_TAG_TYPE.Friendly)
+			else if(obj.tagType == ENUM_TAG_TYPE.Bullet)
 			{
 				var data = ResourceManager.Instance.GetEnemyData(obj.id);
 				var hitParam = new HitParam() { damage = data.damage };

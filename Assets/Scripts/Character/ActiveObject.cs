@@ -14,7 +14,7 @@ public class AttackParam : CommandParam
 
 public class MoveParam : CommandParam
 {
-
+	public float speed;
 }
 
 public class IdleParam : CommandParam
@@ -61,7 +61,6 @@ public enum ObjectID
 
 public class ActiveObject : CollisionObject
 {
-
 	// 로드하지 않고 직접 세팅하는 방법 채택
 	[SerializeField] Animator anim = null;
 

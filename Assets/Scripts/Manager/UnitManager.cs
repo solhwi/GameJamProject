@@ -25,34 +25,61 @@ public class UnitManager : Singleton<UnitManager>
 		while(enemyActionQueue.Count > 0)
 		{
 			var action = enemyActionQueue.Dequeue();
-			action?.Invoke();
+			if (action == null)
+				continue;
+
+			action.Invoke();
+
+			var obj = action.Target as CollisionObject;
+			if (obj == null)
+				continue;
+
+			if (obj is EnemyUnit)
+			{
+				var enemy = obj as EnemyUnit;
+				
+				if(enemy.IsBoss)
+				{
+					var data = ResourceManager.Instance.GetBossData(obj.id);
+					ExecuteCommand(obj, CollisionObject.ObjectStatus.Move, new MoveParam() { speed = data.moveSpeed });
+				}
+				else
+				{
+					var data = ResourceManager.Instance.GetEnemyData(obj.id);
+					ExecuteCommand(obj, CollisionObject.ObjectStatus.Move, new MoveParam() { speed = data.moveSpeed });
+				}				
+			}
+			else if(obj is FriendlyUnit)
+			{
+				ExecuteCommand(obj, CollisionObject.ObjectStatus.Idle);
+			}
 		}
 	}
 
-	public void ExecuteCommand(CollisionObject receiver, ActiveObject.ObjectStatus status, CommandParam param = null)
+	public void ExecuteCommand(CollisionObject receiver, CollisionObject.ObjectStatus status, CommandParam param = null)
 	{
 		if (receiver == null)
 			return;
 
 		switch(status)
 		{
-			case ActiveObject.ObjectStatus.Idle:
+			case CollisionObject.ObjectStatus.Idle:
 				enemyActionQueue.Enqueue(() => { receiver.Idle(param); });
 				break;
 
-			case ActiveObject.ObjectStatus.Move:
+			case CollisionObject.ObjectStatus.Move:
 				enemyActionQueue.Enqueue(() => { receiver.Move(param); });
 				break;
 
-			case ActiveObject.ObjectStatus.Attack:
+			case CollisionObject.ObjectStatus.Attack:
 				enemyActionQueue.Enqueue(() => { receiver.Attack(param); });
 				break;
 
-			case ActiveObject.ObjectStatus.Hit:
+			case CollisionObject.ObjectStatus.Hit:
 				enemyActionQueue.Enqueue(() => { receiver.Hit(param); });
 				break;
 
-			case ActiveObject.ObjectStatus.Die:
+			case CollisionObject.ObjectStatus.Die:
 				enemyActionQueue.Enqueue(() => { receiver.Die(param); });
 				break;
 		}

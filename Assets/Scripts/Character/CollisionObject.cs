@@ -15,6 +15,7 @@ public enum ENUM_TAG_TYPE
 	Friendly = 2,
 	Enemy = 3,
 	Tower = 4,
+	Bullet = 5,
 }
 
 public class CollisionObject : MonoBehaviour
@@ -40,15 +41,15 @@ public class CollisionObject : MonoBehaviour
 		Polygon = 2,
 	}
 
-	// 리지드 바디? 캐릭터 컨트롤러?
-
+	private Rigidbody2D rigid = null;
 	private Collider2D col = null;
 
+	public bool IsBoss = false;
 	protected int currHp = 0;
 
 	public virtual void Init(CollisionType type)
 	{
-		if (col != null)
+		if (col != null || rigid != null)
 			return;
 
 		switch(type)
@@ -66,22 +67,50 @@ public class CollisionObject : MonoBehaviour
 				break;
 		}
 
+		rigid = gameObject.AddComponent<Rigidbody2D>();
+
 		Idle(); // 시작엔 Idle로 세팅
 	}
 
 	public virtual void Idle(CommandParam param = null)
 	{
+		rigid.velocity = Vector2.zero;
 
+		currActiveStatus = ObjectStatus.Idle;
 	}
 
 	public virtual void Move(CommandParam param)
 	{
+		if (tagType != ENUM_TAG_TYPE.Enemy)
+			return;
 
+		if (currActiveStatus == ObjectStatus.Die)
+			return;
+
+		float speed = 0.0f;
+
+		if(IsBoss)
+		{
+			var data = ResourceManager.Instance.GetBossData(id);
+			speed = data.moveSpeed;
+		}
+		else
+		{
+			var data = ResourceManager.Instance.GetEnemyData(id);
+			speed = data.moveSpeed;
+		}
+		
+		rigid.MovePosition(Vector2.right * speed);
+
+		currActiveStatus = ObjectStatus.Move;
 	}
 
 	public virtual void Attack(CommandParam param)
 	{
+		if (currActiveStatus == ObjectStatus.Die)
+			return;
 
+		currActiveStatus = ObjectStatus.Attack;
 	}
 
 	public virtual void Hit(CommandParam param)
@@ -95,10 +124,13 @@ public class CollisionObject : MonoBehaviour
 			currHp = 0;
 
 		UnitManager.Instance.ExecuteCommand(this, ActiveObject.ObjectStatus.Die, new DieParam());
+
+		currActiveStatus = ObjectStatus.Hit;
  	}
 
 	public virtual void Die(CommandParam param)
 	{
-
+		if (currActiveStatus != ObjectStatus.Hit)
+			return;
 	}
 }
