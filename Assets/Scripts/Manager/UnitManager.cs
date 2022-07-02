@@ -42,7 +42,7 @@ public class UnitManager : Singleton<UnitManager>
 			}
 		}
 
-		while(enemyActionQueue.Count > 0)
+		while (enemyActionQueue.Count > 0)
 		{
 			var action = enemyActionQueue.Dequeue();
 			if (action == null)
@@ -57,8 +57,8 @@ public class UnitManager : Singleton<UnitManager>
 			if (obj is EnemyUnit)
 			{
 				var enemy = obj as EnemyUnit;
-				
-				if(enemy.IsBoss)
+
+				if (enemy.IsBoss)
 				{
 					var data = ResourceManager.Instance.GetBossData(obj.id);
 					ExecuteCommand(obj, CollisionObject.ObjectStatus.Move, new MoveParam() { speed = data.moveSpeed });
@@ -67,9 +67,9 @@ public class UnitManager : Singleton<UnitManager>
 				{
 					var data = ResourceManager.Instance.GetEnemyData(obj.id);
 					ExecuteCommand(obj, CollisionObject.ObjectStatus.Move, new MoveParam() { speed = data.moveSpeed });
-				}				
+				}
 			}
-			else if(obj is FriendlyUnit)
+			else if (obj is FriendlyUnit)
 			{
 				ExecuteCommand(obj, CollisionObject.ObjectStatus.Idle);
 			}

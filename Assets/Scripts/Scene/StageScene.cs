@@ -28,10 +28,9 @@ public class StageScene : BaseScene
 		yield return new WaitForSeconds(delayTime); // 잠시 대기... 이 때 시네마틱 등이 필요할 수 있다.
 
 		UnitManager.Instance.Spawn();
+		GameManager.GameStartTrigger();
 
 		while (!UnitManager.Instance.IsSpawnEnded)
 			yield return null;
-
-		GameManager.GameStartTrigger();
 	}
 }

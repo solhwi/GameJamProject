@@ -10,6 +10,8 @@ public class GameManager : Singleton<GameManager>
 	private Action onTriggerGameStart = null;
 	private Action onTriggerGameStop = null;
 
+	private bool isStarted = false;
+
 	public ENUM_STAGE currStage = ENUM_STAGE.stage1;
 
 	public float StageTime
@@ -22,7 +24,8 @@ public class GameManager : Singleton<GameManager>
 	{
 		OnUpdateInstance();
 
-		StageTime += Time.deltaTime;
+		if(isStarted)
+			StageTime += Time.deltaTime;
 	}
 
 	protected override void OnDestroy()
@@ -73,7 +76,8 @@ public class GameManager : Singleton<GameManager>
 		Instance.onTriggerGameStop?.Invoke();
 		Instance.onTriggerGameStop = null;
 
-		Time.timeScale = 0.125f;
+		Instance.StageTime = 0.0f;
+		Instance.isStarted = false;
 	}
 
 	public static void GameStartTrigger()
@@ -81,6 +85,7 @@ public class GameManager : Singleton<GameManager>
 		Instance.onTriggerGameStart?.Invoke();
 		Instance.onTriggerGameStart = null;
 
+		Instance.isStarted = true;
 		Time.timeScale = 1.0f;
 	}
 

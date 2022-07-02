@@ -137,7 +137,7 @@ public class CollisionObject : MonoBehaviour
 		rigid.freezeRotation = true;
 		rigid.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
-		Idle(); // 시작엔 Idle로 세팅
+		UnitManager.Instance.ExecuteCommand(this, ObjectStatus.Move, new MoveParam() { speed = 1 });
 	}
 
 	public virtual void Idle(CommandParam param = null)
@@ -168,7 +168,7 @@ public class CollisionObject : MonoBehaviour
 			speed = data.moveSpeed;
 		}
 		
-		rigid.MovePosition(Vector2.right * speed);
+		rigid.MovePosition(Vector2.left * speed * Time.deltaTime);
 
 		currActiveStatus = ObjectStatus.Move;
 	}
