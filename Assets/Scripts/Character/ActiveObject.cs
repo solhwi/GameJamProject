@@ -32,6 +32,33 @@ public class DieParam : CommandParam
 
 }
 
+public enum ActiveObjectID
+{
+	punc = 1,
+	pacman = 2,
+	ghost = 3,
+	dino = 4,
+	tetris = 5,
+	redmush = 6,
+	star = 7,
+	sonic = 8,
+	kirby = 9,
+	mstrball = 10,
+	orgmush = 11,
+	slime = 12,
+	goblin = 13,
+	zergling = 14,
+	spaceship = 15,
+	grnmush = 16,
+	wrecking = 17,
+	among = 18,
+	boss1 = 19,
+	boss2 = 20,
+	boss3 = 21,
+	boss4 = 22,
+	boss5 = 23,
+}
+
 public class ActiveObject : CollisionObject
 {
 	public enum ActiveStatus

@@ -8,8 +8,9 @@ public class SceneManager : Singleton<SceneManager>
 {
 	public enum ENUM_SCENE
 	{
-		Main = 0,
-		Stage = 1,
+		Enter = 0, // 초기화용 씬
+		Main = 1,
+		Stage = 2,
 	}
 
 	public enum ENUM_SCENE_MAP
