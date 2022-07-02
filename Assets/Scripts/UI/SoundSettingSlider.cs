@@ -14,4 +14,10 @@ public class SoundSettingSlider : MonoBehaviour
         SoundManager.Instance.SetBGMVolume(volume);
     }
 
+    public void OnValueChangeSfxSlider()
+    {
+        float volume = GetComponent<Slider>().value;
+        SoundManager.Instance.SetSFXVolume(volume);
+    }
+
 }
