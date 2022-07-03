@@ -28,9 +28,13 @@ public class FriendlyUnit : ActiveObject
 
 	public override void Attack(CommandParam param)
 	{
-		base.Attack(param);
+		if(cooltime > 0.0f)
+			return;
 
+		base.Attack(param);
 		cooltime = 2.0f;
+
+		UnitManager.Instance.ExecuteCommand(this, ObjectStatus.Idle);
 	}
 
 	protected void Update()
