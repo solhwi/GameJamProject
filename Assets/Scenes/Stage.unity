@@ -1585,6 +1585,7 @@ GameObject:
   - component: {fileID: 897688145}
   - component: {fileID: 897688147}
   - component: {fileID: 897688146}
+  - component: {fileID: 897688148}
   m_Layer: 5
   m_Name: HpPanel
   m_TagString: Untagged
@@ -1650,6 +1651,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 897688144}
   m_CullTransparentMesh: 1
+--- !u!114 &897688148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897688144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9555b2bd1e9239c4d9030cfe82ade4c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hpImage: {fileID: 1567241110}
 --- !u!1 &935433781
 GameObject:
   m_ObjectHideFlags: 0

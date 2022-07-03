@@ -23,6 +23,14 @@ public class UnitManager : Singleton<UnitManager>
 		}
 	}
 
+	public int MyTowerMaxHp
+    {
+		get
+        {
+			return ResourceManager.Instance.GetTowerData(towerUnit.id).hpMax;
+        }
+    }
+
 	private Queue<Action> enemyActionQueue = new Queue<Action>();
 	private List<CollisionObject> objectList = new List<CollisionObject>();
 
