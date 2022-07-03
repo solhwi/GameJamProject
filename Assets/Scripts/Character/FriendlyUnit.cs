@@ -8,11 +8,17 @@ using UnityEngine;
 
 public class FriendlyUnit : ActiveObject
 {
-	public override void Initialize(CollisionType type)
+	public float cooltime = 0.0f;
+	public int attackSpeed = 0;
+	public int damage = 0;
+
+	public override void Initialize(CollisionType type, bool isTrigger = true)
 	{
-		base.Initialize(type);
+		base.Initialize(type, isTrigger);
 
 		tagType = ENUM_TAG_TYPE.Friendly;
+
+		Upgrade(0);
 	}
 
 	public override void Idle(CommandParam param = null)
@@ -23,5 +29,20 @@ public class FriendlyUnit : ActiveObject
 	public override void Attack(CommandParam param)
 	{
 		base.Attack(param);
+
+		cooltime = 2.0f;
+	}
+
+	protected void Update()
+	{
+		cooltime -= Time.deltaTime * attackSpeed;
+	}
+
+	public void Upgrade(int level)
+	{
+		var data = ResourceManager.Instance.GetFriendlyDataByLevel(level);
+
+		attackSpeed = data.attackSpeed;
+		damage = data.damage;
 	}
 }

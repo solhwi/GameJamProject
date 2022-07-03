@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class BossUnit : EnemyUnit
 {
-	public override void Initialize(CollisionType type)
+	public override void Initialize(CollisionType type, bool isTrigger = true)
 	{
-		base.Initialize(type);
+		base.Initialize(type, isTrigger);
 
 		IsBoss = true;
 	}

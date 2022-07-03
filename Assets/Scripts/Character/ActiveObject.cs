@@ -5,12 +5,11 @@ using UnityEngine;
 public class ActiveObject : CollisionObject
 {
 	// 로드하지 않고 직접 세팅하는 방법 채택
-	[SerializeField] Animator anim = null;
 	SpriteRenderer spriteRenderer = null;
 
-	public override void Initialize(CollisionType type)
+	public override void Initialize(CollisionType type, bool isTrigger = true)
 	{
-		base.Initialize(type);
+		base.Initialize(type, isTrigger);
 
 		spriteRenderer = GetComponent<SpriteRenderer>();
 		spriteRenderer.sortingOrder = 1;

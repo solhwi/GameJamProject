@@ -380,6 +380,16 @@ public class ResourceManager : Singleton<ResourceManager>
 		return null;
 	}
 
+	public FriendlyData GetFriendlyDataByLevel(int level)
+	{
+		if(friendlyDictionaryByLevel.ContainsKey(level))
+		{
+			return friendlyDictionaryByLevel[level];
+		}
+
+		return null;
+	}
+
 	public T Load<T>(string path) where T : Object
 	{
 		return Resources.Load<T>(path);

@@ -12,17 +12,46 @@ public class UnitManager : Singleton<UnitManager>
 	} = false;
 
 	private Queue<Action> enemyActionQueue = new Queue<Action>();
+	private List<CollisionObject> objectList = new List<CollisionObject>();
 
-	private Vector2 spawnPos = new Vector2(2, 1);
+	private Vector2 spawnPos = new Vector2(7.0f, -1.5f);
 	private List<KeyValuePair<int, int>> spawnSequence = new List<KeyValuePair<int, int>>();
+
+	private TowerUnit towerUnit = null;
+	private Dictionary<int, FriendlyUnit> gunUnitDictionary = new Dictionary<int, FriendlyUnit>();
 
 	public void Spawn()
 	{
+		Initialize();
+
+		towerUnit = null;
+		objectList = new List<CollisionObject>();
 		enemyActionQueue = new Queue<Action>();
 		spawnSequence = new List<KeyValuePair<int, int>>();
 
 		var stageData = ResourceManager.Instance.GetStageData(GameManager.Instance.currStage);
-		spawnSequence = stageData.spawnTimeList;
+		spawnSequence.AddRange(stageData.spawnTimeList);
+
+		towerUnit = FindObjectOfType<TowerUnit>();
+		var unitArray = FindObjectsOfType<FriendlyUnit>();
+		
+		for(int i = 0; i < unitArray.Length; i++)
+		{
+			gunUnitDictionary.Add(i, unitArray[i]);
+		}
+
+		GameManager.RegisterStartTrigger(() => { Instance.Initialize(); });
+		GameManager.RegisterStopTrigger(() => { DestroyImmediate(gameObject); });
+	}
+
+	public FriendlyUnit GetUnit(int num)
+	{
+		if(gunUnitDictionary.ContainsKey(num))
+		{
+			return gunUnitDictionary[num];
+		}
+
+		return null;
 	}
 
 	public override void OnUpdateInstance()
@@ -37,7 +66,7 @@ public class UnitManager : Singleton<UnitManager>
 				var data = ResourceManager.Instance.GetEnemyData((ObjectID)id);
 				var g = Instantiate(data.prefab, spawnPos, new Quaternion());
 				var unit = g.GetComponent<EnemyUnit>();
-				unit.Initialize(CollisionObject.CollisionType.Capsule);
+				unit.Initialize(CollisionObject.CollisionType.Box);
 				spawnSequence.RemoveAt(i--);
 			}
 		}
@@ -49,8 +78,10 @@ public class UnitManager : Singleton<UnitManager>
 				continue;
 
 			action.Invoke();
+		}
 
-			var obj = action.Target as CollisionObject;
+		foreach(var obj in objectList)
+		{
 			if (obj == null)
 				continue;
 
@@ -71,8 +102,18 @@ public class UnitManager : Singleton<UnitManager>
 			}
 			else if (obj is FriendlyUnit)
 			{
-				ExecuteCommand(obj, CollisionObject.ObjectStatus.Idle);
+				var friendly = obj as FriendlyUnit;
+
+				ExecuteCommand(obj, CollisionObject.ObjectStatus.Attack);
 			}
+		}
+
+		if (towerUnit == null)
+			return;
+
+		if(towerUnit.CurrHp <= 0)
+		{
+			GameManager.PrevGame();
 		}
 	}
 
@@ -81,7 +122,10 @@ public class UnitManager : Singleton<UnitManager>
 		if (receiver == null)
 			return;
 
-		switch(status)
+		if(!objectList.Contains(receiver))
+			objectList.Add(receiver);
+
+		switch (status)
 		{
 			case CollisionObject.ObjectStatus.Idle:
 				enemyActionQueue.Enqueue(() => { receiver.Idle(param); });

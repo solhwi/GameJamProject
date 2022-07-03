@@ -35,5 +35,8 @@ public class MapManager : Singleton<MapManager>
 		SceneManager.Instance.UnloadSceneMap(currMap);
 
 		IsMapLoaded = true;
+
+		GameManager.RegisterStartTrigger(() => { Instance.Initialize(); });
+		GameManager.RegisterStopTrigger(() => { DestroyImmediate(gameObject); });
 	}
 }

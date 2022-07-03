@@ -5,16 +5,13 @@ using UnityEngine.UI;
 
 public class StageScene : BaseScene
 {
-	protected override void Awake()
-	{
-		base.Awake();
-	}
-
 	protected override IEnumerator Start()
 	{
 		GameManager.Instance.Initialize();
 
 		yield return base.Start();
+
+		GameManager.GameStopTrigger();
 
 		var currStage = GameManager.Instance.currStage;
 		MapManager.Instance.LoadMap((SceneManager.ENUM_SCENE_MAP)(int)currStage);
@@ -22,15 +19,15 @@ public class StageScene : BaseScene
 		while(!MapManager.Instance.IsMapLoaded)
 			yield return null;
 
-		GameManager.GameStopTrigger();
-
 		float delayTime = 1.0f;
 		yield return new WaitForSeconds(delayTime); // 잠시 대기... 이 때 시네마틱 등이 필요할 수 있다.
 
 		UnitManager.Instance.Spawn();
+
 		GameManager.GameStartTrigger();
 
 		while (!UnitManager.Instance.IsSpawnEnded)
 			yield return null;
 	}
+
 }

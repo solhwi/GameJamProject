@@ -37,7 +37,8 @@ public class GameManager : Singleton<GameManager>
 	{
 		foreach (var manager in managerList)
 		{
-			manager?.OnUpdateInstance();
+			if(manager != null)
+				manager?.OnUpdateInstance();
 		}
 	}
 
@@ -86,7 +87,40 @@ public class GameManager : Singleton<GameManager>
 		Instance.onTriggerGameStart = null;
 
 		Instance.isStarted = true;
+		Instance.StageTime = 0.0f;
 		Time.timeScale = 1.0f;
+	}
+
+	public static void PrevGame()
+	{
+		GameStopTrigger();
+
+		SceneManager.Instance.ChangeScene(SceneManager.ENUM_SCENE.Main);
+	}
+
+	public static void NextGame()
+	{
+		GameStopTrigger();
+
+		if(Instance.currStage == ENUM_STAGE.stage1)
+		{
+			Instance.currStage = ENUM_STAGE.stage2;
+		}
+		else if(Instance.currStage == ENUM_STAGE.stage2)
+		{
+			Instance.currStage = ENUM_STAGE.stage3;
+		}
+		else if(Instance.currStage == ENUM_STAGE.stage3)
+		{
+			Instance.currStage = ENUM_STAGE.stage4;
+		}
+		else if(Instance.currStage == ENUM_STAGE.stage4)
+		{
+			Instance.currStage = ENUM_STAGE.stage5;
+		}
+
+		SceneManager.Instance.ChangeScene(SceneManager.ENUM_SCENE.Stage);
+		GameStartTrigger();
 	}
 
 	public static void RegisterStartTrigger(Action callback)

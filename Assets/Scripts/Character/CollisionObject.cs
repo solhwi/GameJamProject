@@ -77,6 +77,12 @@ public enum ObjectID
 	boss3 = 21,
 	boss4 = 22,
 	boss5 = 23,
+	tower1 = 24,
+	tower2 = 25,
+	tower3 = 26,
+	tower4 = 27,
+	tower5 = 28,
+	gun = 29,
 }
 
 public class CollisionObject : MonoBehaviour
@@ -108,7 +114,7 @@ public class CollisionObject : MonoBehaviour
 	public bool IsBoss = false;
 	protected int currHp = 0;
 
-	public virtual void Initialize(CollisionType type)
+	public virtual void Initialize(CollisionType type, bool isTrigger = true)
 	{
 		if (col != null || rigid != null)
 			return;
@@ -128,21 +134,22 @@ public class CollisionObject : MonoBehaviour
 				break;
 		}
 
-		col.isTrigger = true;
+		col.isTrigger = isTrigger;
 
 		rigid = gameObject.AddComponent<Rigidbody2D>();
 
-		rigid.drag = 0.0f;
+		rigid.mass = 5;
 		rigid.angularDrag = 0.0f;
 		rigid.freezeRotation = true;
-		rigid.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+		rigid.collisionDetectionMode = CollisionDetectionMode2D.Discrete;
 
 		UnitManager.Instance.ExecuteCommand(this, ObjectStatus.Move, new MoveParam() { speed = 1 });
 	}
 
 	public virtual void Idle(CommandParam param = null)
 	{
-		rigid.velocity = Vector2.zero;
+		if(rigid != null)
+			rigid.velocity = Vector2.zero;
 
 		currActiveStatus = ObjectStatus.Idle;
 	}
@@ -167,8 +174,9 @@ public class CollisionObject : MonoBehaviour
 			var data = ResourceManager.Instance.GetEnemyData(id);
 			speed = data.moveSpeed;
 		}
-		
-		rigid.MovePosition(Vector2.left * speed * Time.deltaTime);
+
+		if (rigid != null)
+			rigid.velocity = Vector2.left * speed;
 
 		currActiveStatus = ObjectStatus.Move;
 	}
@@ -188,11 +196,11 @@ public class CollisionObject : MonoBehaviour
 			return;
 
 		currHp -= _param.damage;
-		if (currHp < 0)
+		if (currHp <= 0)
+		{
 			currHp = 0;
-
-		UnitManager.Instance.ExecuteCommand(this, ActiveObject.ObjectStatus.Die, new DieParam());
-
+			UnitManager.Instance.ExecuteCommand(this, ActiveObject.ObjectStatus.Die, new DieParam());
+		}
 		currActiveStatus = ObjectStatus.Hit;
  	}
 
@@ -200,6 +208,8 @@ public class CollisionObject : MonoBehaviour
 	{
 		if (currActiveStatus != ObjectStatus.Hit)
 			return;
+
+		Destroy(gameObject);
 	}
 
 	public virtual void Rotate(CommandParam param)
@@ -210,6 +220,7 @@ public class CollisionObject : MonoBehaviour
 		var _param = param as RotateParam;
 		Vector2 rotateVec = _param.rotateVec;
 
-		transform.Rotate(rotateVec);	
+		if (transform != null)
+			transform.Rotate(rotateVec);	
 	}
 }

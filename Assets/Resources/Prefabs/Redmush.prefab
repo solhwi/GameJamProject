@@ -99,7 +99,6 @@ MonoBehaviour:
   id: 6
   tagType: 3
   IsBoss: 0
-  anim: {fileID: 0}
 --- !u!1 &5882785108574981648
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,5 +154,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 0.2}
+  m_Size: {x: 1, y: 0.2}
   m_EdgeRadius: 0

@@ -9,9 +9,9 @@ using UnityEngine;
 
 public abstract class EnemyUnit : ActiveObject
 {
-	public override void Initialize(CollisionType type)
+	public override void Initialize(CollisionType type, bool isTrigger = true)
 	{
-		base.Initialize(type);
+		base.Initialize(type, isTrigger);
 
 		tagType = ENUM_TAG_TYPE.Enemy;
 
