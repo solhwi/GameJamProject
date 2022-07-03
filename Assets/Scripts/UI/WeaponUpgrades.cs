@@ -12,5 +12,8 @@ public class WeaponUpgrades : MonoBehaviour
 		{
 			unit.Upgrade((UpgradeType)type);
 		}
+
+		SoundManager.Instance.PlaySFX(this.gameObject, SoundPack.SFXTag.button);
 	}
+
 }

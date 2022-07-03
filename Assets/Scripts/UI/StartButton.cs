@@ -12,6 +12,7 @@ public class StartButton : MonoBehaviour
     //눌렀을 때(OnClick) Stage Scene 으로 이동(Load Scene)
     public void OnClickMoveToStageScene()
     {
+        SoundManager.Instance.PlaySFX(this.gameObject, SoundPack.SFXTag.button);
         SceneManager.Instance.ChangeScene(SceneManager.ENUM_SCENE.Stage);
         Debug.Log("Stage Scene 으로 이동");
     }
