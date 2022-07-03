@@ -6,7 +6,10 @@ public class SoundPack
 {
 	public enum SFXTag
 	{
-
+		hit,
+		die,
+		button,
+		shot,
 	}
 
 	public enum BGMTag
@@ -20,7 +23,10 @@ public class SoundPack
 
 	private Dictionary<SFXTag, AudioClip> sfxDictionary = new Dictionary<SFXTag, AudioClip>()
 	{
-
+		{ SFXTag.hit, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage3}/base_damage3")},
+		{ SFXTag.die, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage3}/monsterdie_3")},
+		{ SFXTag.button, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage3}/buttonsound_3")},
+		{ SFXTag.shot, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage3}/shootgun_3")},
 	};
 
 	private Dictionary<BGMTag, AudioClip> bgmDictionary = new Dictionary<BGMTag, AudioClip>()

@@ -50,14 +50,18 @@ public abstract class EnemyUnit : ActiveObject
 				var data = ResourceManager.Instance.GetEnemyData(id);
 				var hitParam = new HitParam() { damage = data.damage };
 
+				SoundManager.Instance.PlaySFX(obj.gameObject, SoundPack.SFXTag.hit);
+
 				UnitManager.Instance.ExecuteCommand(obj, ObjectStatus.Hit, hitParam);
-				obj.Hit(hitParam);
+				// obj.Hit(hitParam);
 			}
 			// Enemy Unit은 총알에게 맞을 수 있음
 			else if(obj.tagType == ENUM_TAG_TYPE.Bullet)
 			{
 				var data = ResourceManager.Instance.GetEnemyData(obj.id);
 				var hitParam = new HitParam() { damage = data.damage };
+
+				SoundManager.Instance.PlaySFX(obj.gameObject, SoundPack.SFXTag.hit);
 
 				UnitManager.Instance.ExecuteCommand(this, ObjectStatus.Hit, hitParam);
 			}

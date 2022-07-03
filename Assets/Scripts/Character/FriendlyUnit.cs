@@ -54,6 +54,8 @@ public class FriendlyUnit : ActiveObject
 		if (data == null)
 			return;
 
+		SoundManager.Instance.PlaySFX(this.gameObject, SoundPack.SFXTag.shot);
+
 		if(currLevelDictionaryByUpgradeType[UpgradeType.BulletIncrease] > 1)
 		{
 			bullet.TrippleShot(data.damage);
