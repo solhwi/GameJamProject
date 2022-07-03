@@ -18,7 +18,7 @@ public class UnitManager : Singleton<UnitManager>
 	private List<KeyValuePair<int, int>> spawnSequence = new List<KeyValuePair<int, int>>();
 
 	private TowerUnit towerUnit = null;
-	private Dictionary<int, FriendlyUnit> gunUnitDictionary = new Dictionary<int, FriendlyUnit>();
+	private FriendlyUnit friendlyUnit = null;
 
 	public void Spawn()
 	{
@@ -33,25 +33,15 @@ public class UnitManager : Singleton<UnitManager>
 		spawnSequence.AddRange(stageData.spawnTimeList);
 
 		towerUnit = FindObjectOfType<TowerUnit>();
-		var unitArray = FindObjectsOfType<FriendlyUnit>();
-		
-		for(int i = 0; i < unitArray.Length; i++)
-		{
-			gunUnitDictionary.Add(i, unitArray[i]);
-		}
+		friendlyUnit = FindObjectOfType<FriendlyUnit>();
 
 		GameManager.RegisterStartTrigger(() => { Instance.Initialize(); });
 		GameManager.RegisterStopTrigger(() => { DestroyImmediate(gameObject); });
 	}
 
-	public FriendlyUnit GetUnit(int num)
+	public FriendlyUnit GetFriendlyUnit()
 	{
-		if(gunUnitDictionary.ContainsKey(num))
-		{
-			return gunUnitDictionary[num];
-		}
-
-		return null;
+		return friendlyUnit;
 	}
 
 	public override void OnUpdateInstance()

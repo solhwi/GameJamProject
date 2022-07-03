@@ -53,6 +53,7 @@ public class FriendlyData
 	public int damage;
 	public int attackSpeed;
 	public int bulletCount;
+	public int price;
 }
 
 public class StageWeightData
@@ -197,6 +198,7 @@ public class ResourceManager : Singleton<ResourceManager>
 				damage = (int)column["damage"],
 				attackSpeed = (int)column["attack_speed"],
 				bulletCount = (int)column["bullet"],
+				price = (int)column["price"]
 			};
 
 			int id = (int)column["id"];

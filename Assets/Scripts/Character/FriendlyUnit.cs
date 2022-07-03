@@ -6,19 +6,29 @@ using UnityEngine;
 /// 움직이지 않으며, 주기적으로 탄을 발사
 /// </summary>
 
+public enum UpgradeType
+{
+	DamageUp = 0,
+	SpeedUp = 1,
+	BulletIncrease = 2,
+}
+
 public class FriendlyUnit : ActiveObject
 {
 	public float cooltime = 0.0f;
-	public int attackSpeed = 0;
-	public int damage = 0;
+
+	private Dictionary<UpgradeType, int> currLevelDictionaryByUpgradeType = new Dictionary<UpgradeType, int>()
+	{
+		{UpgradeType.DamageUp, 1 },
+		{UpgradeType.SpeedUp, 1},
+		{UpgradeType.BulletIncrease, 1 }
+	};
 
 	public override void Initialize(CollisionType type, bool isTrigger = true)
 	{
 		base.Initialize(type, isTrigger);
 
 		tagType = ENUM_TAG_TYPE.Friendly;
-
-		Upgrade(0);
 	}
 
 	public override void Idle(CommandParam param = null)
@@ -34,19 +44,41 @@ public class FriendlyUnit : ActiveObject
 		base.Attack(param);
 		cooltime = 2.0f;
 
+		var g = ResourceManager.Instance.Load<GameObject>("Prefabs/Bullet");
+		g = Instantiate(g);
+		var bullet = g.GetComponent<Bullet>();
+		bullet.Shot(transform.rotation.eulerAngles);
+
 		UnitManager.Instance.ExecuteCommand(this, ObjectStatus.Idle);
 	}
 
 	protected void Update()
 	{
-		cooltime -= Time.deltaTime * attackSpeed;
+		int level = currLevelDictionaryByUpgradeType[UpgradeType.SpeedUp];
+
+		var data = ResourceManager.Instance.GetFriendlyDataByLevel(level);
+		if (data == null)
+			return;
+ 
+		cooltime -= Time.deltaTime * data.attackSpeed;
 	}
 
-	public void Upgrade(int level)
+	public void Upgrade(UpgradeType type)
 	{
-		var data = ResourceManager.Instance.GetFriendlyDataByLevel(level);
+		int level = currLevelDictionaryByUpgradeType[type];
 
-		attackSpeed = data.attackSpeed;
-		damage = data.damage;
+		if (level >= 3)
+			return;
+
+		var data = ResourceManager.Instance.GetFriendlyDataByLevel(level);
+		if (data == null)
+			return;
+		
+		if(GameManager.CurrGold > data.price)
+		{
+			GameManager.Instance.AddGold(-data.price);
+		}
+
+		currLevelDictionaryByUpgradeType[type]++;
 	}
 }
