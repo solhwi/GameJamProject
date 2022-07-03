@@ -11,6 +11,7 @@ public class GameManager : Singleton<GameManager>
 	private Action onTriggerGameStop = null;
 
 	private bool isStarted = false;
+	private bool isEnded = false;
 
 	public ENUM_STAGE currStage = ENUM_STAGE.stage1;
 
@@ -38,6 +39,13 @@ public class GameManager : Singleton<GameManager>
 
 		if(isStarted)
 			StageTime += Time.deltaTime;
+
+		if (StageTime > 50.0f && !isEnded)
+		{
+			isEnded = true;
+			NextGame(); 
+		}
+			
 	}
 
 	protected override void OnDestroy()
@@ -115,6 +123,7 @@ public class GameManager : Singleton<GameManager>
 		CurrGold = 0;
 		CurrScore = 0;
 		Time.timeScale = 1.0f;
+		Instance.isEnded = false;
 	}
 
 	public static void PrevGame()

@@ -86,7 +86,7 @@ public class UnitManager : Singleton<UnitManager>
 				var data = ResourceManager.Instance.GetEnemyData((ObjectID)id);
 				var g = Instantiate(data.prefab, spawnPos, new Quaternion());
 				var unit = g.GetComponent<EnemyUnit>();
-				unit.Initialize(CollisionObject.CollisionType.Box);
+				unit?.Initialize(CollisionObject.CollisionType.Box);
 				spawnSequence.RemoveAt(i--);
 			}
 		}
