@@ -11,6 +11,18 @@ public class UnitManager : Singleton<UnitManager>
 		private set;
 	} = false;
 
+
+	public int MyTowerHp
+	{
+		get
+		{
+			if (towerUnit == null)
+				return 0;
+
+			return towerUnit.CurrHp;
+		}
+	}
+
 	private Queue<Action> enemyActionQueue = new Queue<Action>();
 	private List<CollisionObject> objectList = new List<CollisionObject>();
 
