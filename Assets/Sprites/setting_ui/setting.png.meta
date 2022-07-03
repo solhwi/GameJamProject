@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5fbd4f7132adb604b8082234ff73c139
+guid: ce3ac745c93423648b5c29ebc9663fd2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7530559111083161832
-    second: soundbar_circle_0
+      213: -6416704506416456542
+    second: setting_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -94,13 +94,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: soundbar_circle_0
+      name: setting_0
       rect:
         serializedVersion: 2
-        x: 145
-        y: 125
-        width: 54
-        height: 52
+        x: 42
+        y: 63
+        width: 176
+        height: 174
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -108,8 +108,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8178ec713641e7790800000000000000
-      internalID: -7530559111083161832
+      spriteID: 2ac1662af3943f6a0800000000000000
+      internalID: -6416704506416456542
       vertices: []
       indices: 
       edges: []
