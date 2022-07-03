@@ -26,6 +26,18 @@ public abstract class EnemyUnit : ActiveObject
 		base.Move(param);
 	}
 
+	public override void Die(CommandParam param)
+	{
+		base.Die(param);
+
+		if(!this.IsBoss)
+		{
+			var data = ResourceManager.Instance.GetEnemyData(id);
+			GameManager.Instance.AddGold(data.gold);
+			GameManager.Instance.AddScore(data.score);
+		}
+	}
+
 	public void OnTriggerEnter2D(Collider2D collision)
 	{
 		var obj = collision.GetComponent<CollisionObject>();

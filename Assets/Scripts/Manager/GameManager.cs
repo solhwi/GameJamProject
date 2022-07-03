@@ -14,6 +14,18 @@ public class GameManager : Singleton<GameManager>
 
 	public ENUM_STAGE currStage = ENUM_STAGE.stage1;
 
+	public static int CurrScore
+	{
+		get;
+		private set;
+	} = 0;
+
+	public static int CurrGold
+	{
+		get;
+		private set;
+	} = 0;
+
 	public float StageTime
 	{
 		get;
@@ -31,6 +43,16 @@ public class GameManager : Singleton<GameManager>
 	protected override void OnDestroy()
 	{
 		OnDestroyInstance();
+	}
+
+	public void AddScore(int score)
+	{
+		CurrScore += score;
+	}
+
+	public void AddGold(int gold)
+	{
+		CurrGold += gold;
 	}
 
 	public override void OnUpdateInstance()
@@ -79,6 +101,8 @@ public class GameManager : Singleton<GameManager>
 
 		Instance.StageTime = 0.0f;
 		Instance.isStarted = false;
+		CurrGold = 0;
+		CurrScore = 0;
 	}
 
 	public static void GameStartTrigger()
@@ -88,6 +112,8 @@ public class GameManager : Singleton<GameManager>
 
 		Instance.isStarted = true;
 		Instance.StageTime = 0.0f;
+		CurrGold = 0;
+		CurrScore = 0;
 		Time.timeScale = 1.0f;
 	}
 
