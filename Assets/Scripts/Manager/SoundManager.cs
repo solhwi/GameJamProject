@@ -91,6 +91,7 @@ public class SoundManager : Singleton<SoundManager>
 		soundPack = new SoundPack();
 		PlayBGM(SoundPack.BGMTag.stage5);
 		SetBGMVolume(1.0f);
+		SetSFXVolume(1.0f);
 	}
 
 	public void PlaySFX(GameObject owner, SoundPack.SFXTag tag)
