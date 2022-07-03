@@ -36,6 +36,8 @@ public class MapManager : Singleton<MapManager>
 
 		IsMapLoaded = true;
 
+		SoundManager.Instance.ChangeBGM((SoundPack.BGMTag)(int)currMap);
+
 		GameManager.RegisterStartTrigger(() => { Instance.Initialize(); });
 		GameManager.RegisterStopTrigger(() => { DestroyImmediate(gameObject); });
 	}

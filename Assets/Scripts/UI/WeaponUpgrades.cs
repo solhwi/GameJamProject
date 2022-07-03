@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class WeaponUpgrades : MonoBehaviour
 {
-    public void UpgradeWeapon(UpgradeType type)
+    public void UpgradeWeapon(int type)
 	{
 		var unit = UnitManager.Instance.GetFriendlyUnit();
 
 		if(unit != null)
 		{
-			unit.Upgrade(type);
+			unit.Upgrade((UpgradeType)type);
 		}
 	}
 }

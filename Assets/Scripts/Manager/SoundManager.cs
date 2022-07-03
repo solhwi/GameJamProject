@@ -28,6 +28,7 @@ public class SoundPack
 		{ BGMTag.stage2, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage2}")},
 		{ BGMTag.stage3, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage3}")},
 		{ BGMTag.stage4, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage4}")},
+		{ BGMTag.stage5, ResourceManager.Instance.Load<AudioClip>($"Sounds/{BGMTag.stage5}")},
 	};
 
 	public AudioClip GetBGMClip(BGMTag tag)
@@ -82,7 +83,8 @@ public class SoundManager : Singleton<SoundManager>
 			bgmSource = gameObject.AddComponent<AudioSource>();
 
 		soundPack = new SoundPack();
-		PlayBGM(SoundPack.BGMTag.stage3);
+		PlayBGM(SoundPack.BGMTag.stage5);
+		SetBGMVolume(1.0f);
 	}
 
 	public void PlaySFX(GameObject owner, SoundPack.SFXTag tag)

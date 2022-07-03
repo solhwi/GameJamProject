@@ -27,7 +27,16 @@ public class UnitManager : Singleton<UnitManager>
     {
 		get
         {
-			return ResourceManager.Instance.GetTowerData(towerUnit.id).hpMax;
+			if (towerUnit == null)
+				return 1;
+
+			var data = ResourceManager.Instance.GetTowerData(towerUnit.id);
+
+			if(data == null)
+			{
+				return 1;
+			}
+			return data.hpMax;
         }
     }
 
@@ -54,6 +63,7 @@ public class UnitManager : Singleton<UnitManager>
 
 		towerUnit = FindObjectOfType<TowerUnit>();
 		friendlyUnit = FindObjectOfType<FriendlyUnit>();
+		ExecuteCommand(friendlyUnit, CollisionObject.ObjectStatus.Attack);
 
 		GameManager.RegisterStartTrigger(() => { Instance.Initialize(); });
 		GameManager.RegisterStopTrigger(() => { DestroyImmediate(gameObject); });

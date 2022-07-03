@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e2e89feff6e604cbd4b7274d87f027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigid: {fileID: 1410391618457230388}
+  col: {fileID: 2104555617013200695}
   tagType: 5
 --- !u!50 &1410391618457230388
 Rigidbody2D:

@@ -6,6 +6,7 @@ using UnityEngine;
 /// 움직이지 않으며, 주기적으로 탄을 발사
 /// </summary>
 
+[System.Serializable]
 public enum UpgradeType
 {
 	DamageUp = 0,
@@ -47,7 +48,20 @@ public class FriendlyUnit : ActiveObject
 		var g = ResourceManager.Instance.Load<GameObject>("Prefabs/Bullet");
 		g = Instantiate(g);
 		var bullet = g.GetComponent<Bullet>();
-		bullet.Shot(transform.rotation.eulerAngles);
+
+		int level = currLevelDictionaryByUpgradeType[UpgradeType.DamageUp];
+		var data = ResourceManager.Instance.GetFriendlyDataByLevel(level);
+		if (data == null)
+			return;
+
+		if(currLevelDictionaryByUpgradeType[UpgradeType.BulletIncrease] > 1)
+		{
+			bullet.TrippleShot(data.damage);
+		}
+		else
+		{
+			bullet.Shot(data.damage);
+		}
 
 		UnitManager.Instance.ExecuteCommand(this, ObjectStatus.Idle);
 	}

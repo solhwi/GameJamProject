@@ -15,6 +15,6 @@ public class HPBar : MonoBehaviour
 	public void PlayerHPbar()
 	{
 		int hp = UnitManager.Instance.MyTowerHp; //캐릭터 hp를 받아옴
-		hpImage.fillAmount =  (float)hp / (float)UnitManager.Instance.MyTowerMaxHp;
+		hpImage.fillAmount = (float)hp / (float)UnitManager.Instance.MyTowerMaxHp;
 	}
 }

@@ -18,26 +18,36 @@ public class ActiveObject : CollisionObject
 	public override void Idle(CommandParam param = null)
 	{
 		base.Idle(param);
+
+		spriteRenderer.color = Color.white;
 	}
 
 	public override void Move(CommandParam param)
 	{
 		base.Move(param);
+
+		spriteRenderer.color = Color.white;
 	}
 
 	public override void Attack(CommandParam param)
 	{
 		base.Attack(param);
+
+		spriteRenderer.color = Color.white;
 	}
 
 	public override void Hit(CommandParam param)
 	{
 		base.Hit(param);
+
+		spriteRenderer.color = Color.red;
 	}
 
 	public override void Die(CommandParam param)
 	{
 		base.Die(param);
+
+		spriteRenderer.color = Color.white;
 	}
 
 
